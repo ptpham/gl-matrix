@@ -563,6 +563,18 @@ describe("vec3", function() {
         });
     });
 
+    describe("center", function() {
+        let out;
+
+        beforeEach(function() {
+            out = [0, 0];
+            result = vec3.center(out, [1,2,3], [9,2,-1]);
+        });
+
+        it("should have the expected values", function() { expect(out).toBeEqualish([5,2,1]); });
+        it("should return out", function() { expect(result).toBe(out); });
+    });
+
     describe("lerp", function() {
         describe("with a separate output vector", function() {
             beforeEach(function() { result = vec3.lerp(out, vecA, vecB, 0.5); });

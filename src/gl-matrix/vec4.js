@@ -402,6 +402,30 @@ export function dot(a, b) {
 }
 
 /**
+ * Calculates the average of multiple vec4.
+ *
+ * @param {vec4} out the resulting average
+ * @param {vec4} points a variadic listing of points
+ */
+export function average(out, ...points) {
+  set(out, 0, 0, 0, 0);
+  for (let point of points) add(out, out, point);
+  return scale(out, out, 1/points.length);
+}
+
+/**
+ * Calculates the average of multiple vec4 and subtracts it from the input points.
+ *
+ * @param {vec4} out the resulting average
+ * @param {vec4} points a variadic listing of points
+ */
+export function center(out, ...points) {
+  average(out, ...points);
+  for (let point of points) sub(point, point, out);
+  return out;
+}
+
+/**
  * Performs a linear interpolation between two vec4's
  *
  * @param {vec4} out the receiving vector

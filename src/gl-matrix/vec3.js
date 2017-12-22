@@ -395,6 +395,30 @@ export function cross(out, a, b) {
 }
 
 /**
+ * Calculates the average of multiple vec3.
+ *
+ * @param {vec3} out the resulting average
+ * @param {vec3} points a variadic listing of points
+ */
+export function average(out, ...points) {
+  set(out, 0, 0, 0);
+  for (let point of points) add(out, out, point);
+  return scale(out, out, 1/points.length);
+}
+
+/**
+ * Calculates the average of multiple vec3 and subtracts it from the input points.
+ *
+ * @param {vec3} out the resulting average
+ * @param {vec3} points a variadic listing of points
+ */
+export function center(out, ...points) {
+  average(out, ...points);
+  for (let point of points) sub(point, point, out);
+  return out;
+}
+
+/**
  * Performs a linear interpolation between two vec3's
  *
  * @param {vec3} out the receiving vector

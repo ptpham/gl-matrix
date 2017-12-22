@@ -415,6 +415,18 @@ describe("vec2", function() {
         it("should not modify vecB", function() { expect(vecB).toBeEqualish([3, 4]); });
     });
 
+    describe("center", function() {
+        let out;
+
+        beforeEach(function() {
+            out = [0, 0];
+            result = vec2.center(out, [1,2], [9,2]);
+        });
+
+        it("should computed expected values", function() { expect(out).toBeEqualish([5,2]); });
+        it("should return out", function() { expect(result).toBe(out); });
+    });
+
     describe("lerp", function() {
         describe("with a separate output vector", function() {
             beforeEach(function() { result = vec2.lerp(out, vecA, vecB, 0.5); });

@@ -1110,6 +1110,8 @@ exports.inverse = inverse;
 exports.normalize = normalize;
 exports.dot = dot;
 exports.cross = cross;
+exports.average = average;
+exports.center = center;
 exports.lerp = lerp;
 exports.hermite = hermite;
 exports.bezier = bezier;
@@ -1526,6 +1528,85 @@ function cross(out, a, b) {
   out[0] = ay * bz - az * by;
   out[1] = az * bx - ax * bz;
   out[2] = ax * by - ay * bx;
+  return out;
+}
+
+/**
+ * Calculates the average of multiple vec3.
+ *
+ * @param {vec3} out the resulting average
+ * @param {vec3} points a variadic listing of points
+ */
+function average(out) {
+  set(out, 0, 0, 0);
+
+  for (var _len = arguments.length, points = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    points[_key - 1] = arguments[_key];
+  }
+
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = points[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var point = _step.value;
+      add(out, out, point);
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  return scale(out, out, 1 / points.length);
+}
+
+/**
+ * Calculates the average of multiple vec3 and subtracts it from the input points.
+ *
+ * @param {vec3} out the resulting average
+ * @param {vec3} points a variadic listing of points
+ */
+function center(out) {
+  for (var _len2 = arguments.length, points = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+    points[_key2 - 1] = arguments[_key2];
+  }
+
+  average.apply(undefined, [out].concat(points));
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    for (var _iterator2 = points[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      var point = _step2.value;
+      sub(point, point, out);
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+
   return out;
 }
 
@@ -1959,6 +2040,8 @@ exports.negate = negate;
 exports.inverse = inverse;
 exports.normalize = normalize;
 exports.dot = dot;
+exports.average = average;
+exports.center = center;
 exports.lerp = lerp;
 exports.random = random;
 exports.transformMat4 = transformMat4;
@@ -2372,6 +2455,85 @@ function normalize(out, a) {
  */
 function dot(a, b) {
   return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
+}
+
+/**
+ * Calculates the average of multiple vec4.
+ *
+ * @param {vec4} out the resulting average
+ * @param {vec4} points a variadic listing of points
+ */
+function average(out) {
+  set(out, 0, 0, 0, 0);
+
+  for (var _len = arguments.length, points = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    points[_key - 1] = arguments[_key];
+  }
+
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = points[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var point = _step.value;
+      add(out, out, point);
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  return scale(out, out, 1 / points.length);
+}
+
+/**
+ * Calculates the average of multiple vec4 and subtracts it from the input points.
+ *
+ * @param {vec4} out the resulting average
+ * @param {vec4} points a variadic listing of points
+ */
+function center(out) {
+  for (var _len2 = arguments.length, points = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+    points[_key2 - 1] = arguments[_key2];
+  }
+
+  average.apply(undefined, [out].concat(points));
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    for (var _iterator2 = points[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      var point = _step2.value;
+      sub(point, point, out);
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+
+  return out;
 }
 
 /**
@@ -6352,6 +6514,8 @@ exports.inverse = inverse;
 exports.normalize = normalize;
 exports.dot = dot;
 exports.cross = cross;
+exports.average = average;
+exports.center = center;
 exports.lerp = lerp;
 exports.random = random;
 exports.transformMat2 = transformMat2;
@@ -6733,6 +6897,85 @@ function cross(out, a, b) {
   out[2] = z;
   return out;
 };
+
+/**
+ * Calculates the average of multiple vec2.
+ *
+ * @param {vec2} out the resulting average
+ * @param {vec2} points a variadic listing of points
+ */
+function average(out) {
+  set(out, 0, 0);
+
+  for (var _len = arguments.length, points = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    points[_key - 1] = arguments[_key];
+  }
+
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = points[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var point = _step.value;
+      add(out, out, point);
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  return scale(out, out, 1 / points.length);
+}
+
+/**
+ * Calculates the average of multiple vec2 and subtracts it from the input points.
+ *
+ * @param {vec2} out the resulting average
+ * @param {vec2} points a variadic listing of points
+ */
+function center(out) {
+  for (var _len2 = arguments.length, points = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+    points[_key2 - 1] = arguments[_key2];
+  }
+
+  average.apply(undefined, [out].concat(points));
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    for (var _iterator2 = points[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      var point = _step2.value;
+      sub(point, point, out);
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+
+  return out;
+}
 
 /**
  * Performs a linear interpolation between two vec2's
