@@ -293,7 +293,7 @@ export function invert(out, a) {
   // Calculate the determinant
   let det = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
 
-  if (!det) {
+  if (Math.abs(det) < 0.000001) {
     return null;
   }
   det = 1.0 / det;
