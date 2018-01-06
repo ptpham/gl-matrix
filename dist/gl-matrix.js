@@ -463,7 +463,7 @@ function invert(out, a) {
   // Calculate the determinant
   var det = a00 * b01 + a01 * b11 + a02 * b21;
 
-  if (!det) {
+  if (Math.abs(det) < 0.000001) {
     return null;
   }
   det = 1.0 / det;
@@ -3040,7 +3040,7 @@ function invert(out, a) {
   // Calculate the determinant
   var det = a0 * a3 - a2 * a1;
 
-  if (!det) {
+  if (Math.abs(det) < 0.000001) {
     return null;
   }
   det = 1.0 / det;
@@ -4259,7 +4259,7 @@ function invert(out, a) {
   // Calculate the determinant
   var det = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
 
-  if (!det) {
+  if (Math.abs(det) < 0.000001) {
     return null;
   }
   det = 1.0 / det;
