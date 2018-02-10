@@ -976,6 +976,29 @@ export function fromOuterProduct(out, v0, v1) {
   return out;
 }
 
+export function addScaledOuterProduct(out, v0, v1, w = 1) {
+  out[0] += w*v0[0]*v1[0];
+  out[1] += w*v0[1]*v1[0];
+  out[2] += w*v0[2]*v1[0];
+  out[3] += w*v0[3]*v1[0];
+
+  out[4] += w*v0[0]*v1[1];
+  out[5] += w*v0[1]*v1[1];
+  out[6] += w*v0[2]*v1[1];
+  out[7] += w*v0[3]*v1[1];
+
+  out[8] += w*v0[0]*v1[2];
+  out[9] += w*v0[1]*v1[2];
+  out[10] += w*v0[2]*v1[2];
+  out[11] += w*v0[3]*v1[2];
+
+  out[12] += w*v0[0]*v1[3];
+  out[13] += w*v0[1]*v1[3];
+  out[14] += w*v0[2]*v1[3];
+  out[15] += w*v0[3]*v1[3];
+  return out;
+}
+
 /**
  * Returns the translation vector component of a transformation
  *  matrix. If a matrix is built with fromRotationTranslation,

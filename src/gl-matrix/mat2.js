@@ -307,6 +307,13 @@ export function fromOuterProduct(out, v0, v1) {
   return out;
 }
 
+export function addScaledOuterProduct(out, v0, v1, w = 1) {
+  out[0] += w*v0[0]*v1[0];
+  out[1] += w*v0[1]*v1[0];
+  out[2] += w*v0[0]*v1[1];
+  out[3] += w*v0[1]*v1[1];
+}
+
 /**
  * Returns a string representation of a mat2
  *

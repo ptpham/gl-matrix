@@ -499,6 +499,21 @@ export function fromOuterProduct(out, v0, v1) {
   return out;
 }
 
+export function addScaledOuterProduct(out, v0, v1, w = 1) {
+  out[0] += w*v0[0]*v1[0];
+  out[1] += w*v0[1]*v1[0];
+  out[2] += w*v0[2]*v1[0];
+
+  out[3] += w*v0[0]*v1[1];
+  out[4] += w*v0[1]*v1[1];
+  out[5] += w*v0[2]*v1[1];
+
+  out[6] += w*v0[0]*v1[2];
+  out[7] += w*v0[1]*v1[2];
+  out[8] += w*v0[2]*v1[2];
+  return out;
+}
+
 /**
  * Copies the values from a mat2d into a mat3
  *

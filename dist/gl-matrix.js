@@ -206,6 +206,7 @@ exports.fromTranslation = fromTranslation;
 exports.fromRotation = fromRotation;
 exports.fromScaling = fromScaling;
 exports.fromOuterProduct = fromOuterProduct;
+exports.addScaledOuterProduct = addScaledOuterProduct;
 exports.fromMat2d = fromMat2d;
 exports.fromQuat = fromQuat;
 exports.normalFromMat4 = normalFromMat4;
@@ -767,6 +768,23 @@ function fromOuterProduct(out, v0, v1) {
   out[6] = v0[0] * v1[2];
   out[7] = v0[1] * v1[2];
   out[8] = v0[2] * v1[2];
+  return out;
+}
+
+function addScaledOuterProduct(out, v0, v1) {
+  var w = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
+
+  out[0] += w * v0[0] * v1[0];
+  out[1] += w * v0[1] * v1[0];
+  out[2] += w * v0[2] * v1[0];
+
+  out[3] += w * v0[0] * v1[1];
+  out[4] += w * v0[1] * v1[1];
+  out[5] += w * v0[2] * v1[1];
+
+  out[6] += w * v0[0] * v1[2];
+  out[7] += w * v0[1] * v1[2];
+  out[8] += w * v0[2] * v1[2];
   return out;
 }
 
@@ -2865,6 +2883,7 @@ exports.scale = scale;
 exports.fromRotation = fromRotation;
 exports.fromScaling = fromScaling;
 exports.fromOuterProduct = fromOuterProduct;
+exports.addScaledOuterProduct = addScaledOuterProduct;
 exports.str = str;
 exports.frob = frob;
 exports.LDU = LDU;
@@ -3202,6 +3221,15 @@ function fromOuterProduct(out, v0, v1) {
   out[2] = v0[0] * v1[1];
   out[3] = v0[1] * v1[1];
   return out;
+}
+
+function addScaledOuterProduct(out, v0, v1) {
+  var w = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
+
+  out[0] += w * v0[0] * v1[0];
+  out[1] += w * v0[1] * v1[0];
+  out[2] += w * v0[0] * v1[1];
+  out[3] += w * v0[1] * v1[1];
 }
 
 /**
@@ -3925,6 +3953,7 @@ exports.fromYRotation = fromYRotation;
 exports.fromZRotation = fromZRotation;
 exports.fromRotationTranslation = fromRotationTranslation;
 exports.fromOuterProduct = fromOuterProduct;
+exports.addScaledOuterProduct = addScaledOuterProduct;
 exports.getTranslation = getTranslation;
 exports.getScaling = getScaling;
 exports.getRotation = getRotation;
@@ -5025,6 +5054,31 @@ function fromOuterProduct(out, v0, v1) {
   out[13] = v0[1] * v1[3];
   out[14] = v0[2] * v1[3];
   out[15] = v0[3] * v1[3];
+  return out;
+}
+
+function addScaledOuterProduct(out, v0, v1) {
+  var w = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
+
+  out[0] += w * v0[0] * v1[0];
+  out[1] += w * v0[1] * v1[0];
+  out[2] += w * v0[2] * v1[0];
+  out[3] += w * v0[3] * v1[0];
+
+  out[4] += w * v0[0] * v1[1];
+  out[5] += w * v0[1] * v1[1];
+  out[6] += w * v0[2] * v1[1];
+  out[7] += w * v0[3] * v1[1];
+
+  out[8] += w * v0[0] * v1[2];
+  out[9] += w * v0[1] * v1[2];
+  out[10] += w * v0[2] * v1[2];
+  out[11] += w * v0[3] * v1[2];
+
+  out[12] += w * v0[0] * v1[3];
+  out[13] += w * v0[1] * v1[3];
+  out[14] += w * v0[2] * v1[3];
+  out[15] += w * v0[3] * v1[3];
   return out;
 }
 
