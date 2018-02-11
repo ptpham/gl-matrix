@@ -312,6 +312,44 @@ export function addScaledOuterProduct(out, v0, v1, w = 1) {
   out[1] += w*v0[1]*v1[0];
   out[2] += w*v0[0]*v1[1];
   out[3] += w*v0[1]*v1[1];
+  return out;
+}
+
+export function decomposeQR(outQ, outR, A) {
+  let [a0, a1, a2, a3] = A;
+  let l0 = Math.sqrt(a0*a0 + a1*a1);
+
+  if (l0 > glMatrix.EPSILON) {
+    outQ[0] = a0/l0;
+    outQ[1] = a1/l0;
+
+    outR[0] = l0;
+    outR[1] = 0;
+  } else {
+    outQ[0] = 0;
+    outQ[1] = 0;
+
+    outR[0] = 1;
+    outR[1] = 0;
+  }
+
+  let d1 = outQ[0]*a2 + outQ[1]*a3;
+  outQ[2] = a2 - d1*outQ[0];
+  outQ[3] = a3 - d1*outQ[1];
+  let l1 = Math.sqrt(outQ[2]*outQ[2] + outQ[3]*outQ[3]);
+
+  if (l1 > glMatrix.EPSILON) {
+    outQ[2] /= l1;
+    outQ[3] /= l1;
+
+    outR[2] = d1;
+    outR[3] = l1;
+  } else {
+    outR[2] = 0;
+    outR[3] = 1;
+  }
+
+  return outQ;
 }
 
 /**
