@@ -1025,8 +1025,6 @@ export let decomposeQR = (() => {
       }
 
       let l = Math.sqrt(a0*a0 + a1*a1 + a2*a2 + a3*a3);
-      outR[5*i] = l;
-
       if (l > glMatrix.EPSILON) {
         outQ[4*i] = a0 / l;
         outQ[4*i + 1] = a1 / l;
@@ -1035,6 +1033,7 @@ export let decomposeQR = (() => {
         for (let j = 0; j < i; j++) {
           outR[4*i + j] = space[j];
         }
+        outR[5*i] = l;
       } else {
         outR[5*i] = 1;
       }
