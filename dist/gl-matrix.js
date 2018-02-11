@@ -186,7 +186,7 @@ function equals(a, b) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sub = exports.mul = undefined;
+exports.sub = exports.mul = exports.decomposeQR = undefined;
 exports.create = create;
 exports.fromMat4 = fromMat4;
 exports.clone = clone;
@@ -787,6 +787,48 @@ function addScaledOuterProduct(out, v0, v1) {
   out[8] += w * v0[2] * v1[2];
   return out;
 }
+
+var decomposeQR = exports.decomposeQR = function () {
+  var _m3_0 = create(),
+      space = create();
+  return function decomposeQR(outQ, outR, A) {
+    copy(_m3_0, A);
+    outQ.fill(0);
+    outR.fill(0);
+
+    for (var i = 0; i < 3; i++) {
+      var a0 = _m3_0[3 * i];
+      var a1 = _m3_0[3 * i + 1];
+      var a2 = _m3_0[3 * i + 2];
+
+      for (var j = 0; j < i; j++) {
+        space[j] = outQ[3 * j] * a0 + outQ[3 * j + 1] * a1 + outQ[3 * j + 2] * a2;
+      }
+
+      for (var _j = 0; _j < i; _j++) {
+        var d = space[_j];
+        a0 -= d * outQ[3 * _j];
+        a1 -= d * outQ[3 * _j + 1];
+        a2 -= d * outQ[3 * _j + 2];
+      }
+
+      var l = Math.sqrt(a0 * a0 + a1 * a1 + a2 * a2);
+      if (l > glMatrix.EPSILON) {
+        outQ[3 * i] = a0 / l;
+        outQ[3 * i + 1] = a1 / l;
+        outQ[3 * i + 2] = a2 / l;
+        for (var _j2 = 0; _j2 < i; _j2++) {
+          outR[3 * i + _j2] = space[_j2];
+        }
+        outR[4 * i] = l;
+      } else {
+        outR[4 * i] = 1;
+      }
+    }
+
+    return outQ;
+  };
+}();
 
 /**
  * Copies the values from a mat2d into a mat3
@@ -2867,6 +2909,27 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.sub = exports.mul = undefined;
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }(); /* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Permission is hereby granted, free of charge, to any person obtaining a copy
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         of this software and associated documentation files (the "Software"), to deal
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         in the Software without restriction, including without limitation the rights
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         copies of the Software, and to permit persons to whom the Software is
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         furnished to do so, subject to the following conditions:
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         The above copyright notice and this permission notice shall be included in
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         all copies or substantial portions of the Software.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         THE SOFTWARE. */
+
 exports.create = create;
 exports.clone = clone;
 exports.copy = copy;
@@ -2884,6 +2947,7 @@ exports.fromRotation = fromRotation;
 exports.fromScaling = fromScaling;
 exports.fromOuterProduct = fromOuterProduct;
 exports.addScaledOuterProduct = addScaledOuterProduct;
+exports.decomposeQR = decomposeQR;
 exports.str = str;
 exports.frob = frob;
 exports.LDU = LDU;
@@ -2925,26 +2989,6 @@ function create() {
  * @param {mat2} a matrix to clone
  * @returns {mat2} a new 2x2 matrix
  */
-/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE. */
-
 function clone(a) {
   var out = new glMatrix.ARRAY_TYPE(4);
   out[0] = a[0];
@@ -3230,6 +3274,41 @@ function addScaledOuterProduct(out, v0, v1) {
   out[1] += w * v0[1] * v1[0];
   out[2] += w * v0[0] * v1[1];
   out[3] += w * v0[1] * v1[1];
+  return out;
+}
+
+function decomposeQR(outQ, outR, A) {
+  outQ.fill(0);
+  identity(outR);
+
+  var _A = _slicedToArray(A, 4),
+      a0 = _A[0],
+      a1 = _A[1],
+      a2 = _A[2],
+      a3 = _A[3];
+
+  var l0 = Math.sqrt(a0 * a0 + a1 * a1);
+  if (l0 > glMatrix.EPSILON) {
+    outQ[0] = a0 / l0;
+    outQ[1] = a1 / l0;
+
+    outR[0] = l0;
+  }
+
+  var d1 = outQ[0] * a2 + outQ[1] * a3;
+  outQ[2] = a2 - d1 * outQ[0];
+  outQ[3] = a3 - d1 * outQ[1];
+  var l1 = Math.sqrt(outQ[2] * outQ[2] + outQ[3] * outQ[3]);
+
+  if (l1 > glMatrix.EPSILON) {
+    outQ[2] /= l1;
+    outQ[3] /= l1;
+
+    outR[2] = d1;
+    outR[3] = l1;
+  }
+
+  return outQ;
 }
 
 /**
@@ -3927,7 +4006,7 @@ var sub = exports.sub = subtract;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sub = exports.mul = undefined;
+exports.sub = exports.mul = exports.decomposeQR = undefined;
 exports.create = create;
 exports.clone = clone;
 exports.copy = copy;
@@ -5081,6 +5160,51 @@ function addScaledOuterProduct(out, v0, v1) {
   out[15] += w * v0[3] * v1[3];
   return out;
 }
+
+var decomposeQR = exports.decomposeQR = function () {
+  var _m4_0 = create(),
+      space = create();
+  return function decomposeQR(outQ, outR, A) {
+    copy(_m4_0, A);
+    outR.fill(0);
+    outQ.fill(0);
+
+    for (var i = 0; i < 4; i++) {
+      var a0 = _m4_0[4 * i];
+      var a1 = _m4_0[4 * i + 1];
+      var a2 = _m4_0[4 * i + 2];
+      var a3 = _m4_0[4 * i + 3];
+
+      for (var j = 0; j < i; j++) {
+        space[j] = outQ[4 * j] * a0 + outQ[4 * j + 1] * a1 + outQ[4 * j + 2] * a2 + outQ[4 * j + 3] * a3;
+      }
+
+      for (var _j = 0; _j < i; _j++) {
+        var d = space[_j];
+        a0 -= d * outQ[4 * _j];
+        a1 -= d * outQ[4 * _j + 1];
+        a2 -= d * outQ[4 * _j + 2];
+        a3 -= d * outQ[4 * _j + 3];
+      }
+
+      var l = Math.sqrt(a0 * a0 + a1 * a1 + a2 * a2 + a3 * a3);
+      if (l > glMatrix.EPSILON) {
+        outQ[4 * i] = a0 / l;
+        outQ[4 * i + 1] = a1 / l;
+        outQ[4 * i + 2] = a2 / l;
+        outQ[4 * i + 3] = a3 / l;
+        for (var _j2 = 0; _j2 < i; _j2++) {
+          outR[4 * i + _j2] = space[_j2];
+        }
+        outR[5 * i] = l;
+      } else {
+        outR[5 * i] = 1;
+      }
+    }
+
+    return outQ;
+  };
+}();
 
 /**
  * Returns the translation vector component of a transformation
