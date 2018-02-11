@@ -316,21 +316,16 @@ export function addScaledOuterProduct(out, v0, v1, w = 1) {
 }
 
 export function decomposeQR(outQ, outR, A) {
+  outQ.fill(0);
+  identity(outR);
+
   let [a0, a1, a2, a3] = A;
   let l0 = Math.sqrt(a0*a0 + a1*a1);
-
   if (l0 > glMatrix.EPSILON) {
     outQ[0] = a0/l0;
     outQ[1] = a1/l0;
 
     outR[0] = l0;
-    outR[1] = 0;
-  } else {
-    outQ[0] = 0;
-    outQ[1] = 0;
-
-    outR[0] = 1;
-    outR[1] = 0;
   }
 
   let d1 = outQ[0]*a2 + outQ[1]*a3;
@@ -344,9 +339,6 @@ export function decomposeQR(outQ, outR, A) {
 
     outR[2] = d1;
     outR[3] = l1;
-  } else {
-    outR[2] = 0;
-    outR[3] = 1;
   }
 
   return outQ;

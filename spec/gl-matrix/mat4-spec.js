@@ -603,6 +603,23 @@ function buildMat4Tests() {
 
         });
 
+        describe('decomposeQR', function() {
+            let outQ = mat4.create(), outR = mat4.create();
+            beforeEach(function() { result = mat4.decomposeQR(outQ, outR, [3,4,0,0,6,9,0,0,4,0,5,0,0,0,0,1]); });
+            it("should output the correct values", function() {
+              expect(outQ).toBeEqualish([3/5, 4/5, 0, 0, -4/5, 3/5, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
+              expect(outR).toBeEqualish([5, 0, 0, 0, 54/5, 3/5, 0, 0, 12/5, -16/5, 5, 0, 0, 0, 0, 1]);
+            });
+            it("should return outQ", function() { expect(result).toBe(outQ); });
+            it('should not create NaN given an all zero matrix', function() {
+              let zeroes = mat4.create().fill(0);
+              let identity = mat4.create();
+              mat4.decomposeQR(outQ, outR, zeroes);
+              expect(outQ).toBeEqualish(zeroes);
+              expect(outR).toBeEqualish(identity);
+            });
+        });
+
         describe("getRotation", function() {
             describe("from the identity matrix", function() {
                 beforeEach(function() {

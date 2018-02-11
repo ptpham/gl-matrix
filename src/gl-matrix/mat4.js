@@ -999,6 +999,51 @@ export function addScaledOuterProduct(out, v0, v1, w = 1) {
   return out;
 }
 
+export let decomposeQR = (() => {
+  let _m4_0 = create(), space = create();
+  return function decomposeQR(outQ, outR, A) {
+    copy(_m4_0, A);
+    outR.fill(0);
+    outQ.fill(0);
+
+    for (let i = 0; i < 4; i++) {
+      let a0 = _m4_0[4*i];
+      let a1 = _m4_0[4*i+1];
+      let a2 = _m4_0[4*i+2];
+      let a3 = _m4_0[4*i+3];
+
+      for (let j = 0; j < i; j++) {
+        space[j] = outQ[4*j]*a0 + outQ[4*j+1]*a1 + outQ[4*j+2]*a2 + outQ[4*j+3]*a3;
+      }
+
+      for (let j = 0; j < i; j++) {
+        let d = space[j];
+        a0 -= d*outQ[4*j];
+        a1 -= d*outQ[4*j+1];
+        a2 -= d*outQ[4*j+2];
+        a3 -= d*outQ[4*j+3];
+      }
+
+      let l = Math.sqrt(a0*a0 + a1*a1 + a2*a2 + a3*a3);
+      outR[5*i] = l;
+
+      if (l > glMatrix.EPSILON) {
+        outQ[4*i] = a0 / l;
+        outQ[4*i + 1] = a1 / l;
+        outQ[4*i + 2] = a2 / l;
+        outQ[4*i + 3] = a3 / l;
+        for (let j = 0; j < i; j++) {
+          outR[4*i + j] = space[j];
+        }
+      } else {
+        outR[5*i] = 1;
+      }
+    }
+
+    return outQ;
+  };
+})();
+
 /**
  * Returns the translation vector component of a transformation
  *  matrix. If a matrix is built with fromRotationTranslation,
