@@ -90,6 +90,21 @@ describe("mat3", function() {
         it("should return out", function() { expect(result).toBe(out); });
     });
 
+    describe('decomposeQR', function() {
+        let outQ = mat3.create(), outR = mat3.create();
+        beforeEach(function() { result = mat3.decomposeQR(outQ, outR, [3,4,0,6,9,0,4,0,5]); });
+        it("should output the correct values", function() {
+          expect(outQ).toBeEqualish([3/5, 4/5, 0, -4/5, 3/5, 0, 0, 0, 1]);
+          expect(outR).toBeEqualish([5, 0, 0, 54/5, 3/5, 0, 12/5, -16/5, 5]);
+        });
+        it("should return outQ", function() { expect(result).toBe(outQ); });
+        it('should not create NaN given an all zero matrix', function() {
+          mat3.decomposeQR(outQ, outR, [0,0,0,0,0,0,0,0,0]);
+          expect(outQ).toBeEqualish([0,0,0,0,0,0,0,0,0]);
+          expect(outR).toBeEqualish([1,0,0,0,1,0,0,0,1]);
+        });
+    });
+
     describe("fromQuat", function() {
         let q;
 

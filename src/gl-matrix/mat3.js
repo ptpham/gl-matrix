@@ -514,6 +514,67 @@ export function addScaledOuterProduct(out, v0, v1, w = 1) {
   return out;
 }
 
+export function decomposeQR(outQ, outR, A) {
+  let [a0, a1, a2, a3, a4, a5, a6, a7, a8] = A;
+
+  let l0 = Math.sqrt(a0*a0 + a1*a1 + a2*a2);
+  if (l0 > glMatrix.EPSILON) {
+    outQ[0] = a0/l0;
+    outQ[1] = a1/l0;
+    outQ[2] = a2/l0;
+    outR[0] = l0;
+  } else {
+    outQ[0] = outQ[1] = outQ[2] = 0;
+    outR[0] = 1;
+  }
+  outR[1] = outR[2] = 0;
+
+  let d1 = outQ[0]*a3 + outQ[1]*a4 + outQ[2]*a5;
+  outQ[3] = a3 - d1*outQ[0];
+  outQ[4] = a4 - d1*outQ[1];
+  outQ[5] = a5 - d1*outQ[2];
+
+  let l1 = Math.sqrt(outQ[3]*outQ[3] + outQ[4]*outQ[4] + outQ[5]*outQ[5]);
+  if (l1 > glMatrix.EPSILON) {
+    outQ[3] /= l1;
+    outQ[4] /= l1;
+    outQ[5] /= l1;
+
+    outR[3] = d1;
+    outR[4] = l1;
+    outR[5] = 0;
+  } else {
+    outQ[3] = outQ[4] = outQ[5] = 0;
+    outR[3] = 0;
+    outR[4] = 1;
+    outR[5] = 0;
+  }
+
+  let d2_0 = outQ[0]*a6 + outQ[1]*a7 + outQ[2]*a8;
+  let d2_1 = outQ[3]*a6 + outQ[4]*a7 + outQ[5]*a8;
+  outQ[6] = a6 - d2_0*outQ[0] - d2_1*outQ[3];
+  outQ[7] = a7 - d2_0*outQ[1] - d2_1*outQ[4];
+  outQ[8] = a8 - d2_0*outQ[2] - d2_1*outQ[5];
+
+  let l2 = Math.sqrt(outQ[6]*outQ[6] + outQ[7]*outQ[7] + outQ[8]*outQ[8]);
+  if (l2 > glMatrix.EPSILON) {
+    outQ[6] /= l2;
+    outQ[7] /= l2;
+    outQ[8] /= l2;
+
+    outR[6] = d2_0;
+    outR[7] = d2_1;
+    outR[8] = l2;
+  } else {
+    outQ[6] = outQ[7] = outQ[8] = 0;
+    outR[6] = 0;
+    outR[7] = 0;
+    outR[8] = 1;
+  }
+
+  return outQ;
+}
+
 /**
  * Copies the values from a mat2d into a mat3
  *
