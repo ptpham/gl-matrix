@@ -274,6 +274,15 @@ export function fromRotation(out, rad) {
 }
 
 /**
+ * Computes the rotation that rotates the first vec2 a to the second vec2 b.
+ */
+export function rotationTo(result, a, b, defaultSign) {
+  let sign = Math.sign(a[0]*b[1] - a[1]*b[0]) || defaultSign || 1;
+  let dot = Math.min(Math.max(a[0]*b[0] + a[1]*b[1], -1), 1);
+  return fromRotation(result, sign*Math.acos(dot));
+};
+
+/**
  * Creates a matrix from a vector scaling
  * This is equivalent to (but much faster than):
  *

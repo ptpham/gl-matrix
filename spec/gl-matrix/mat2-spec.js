@@ -19,6 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 import * as mat2 from "../../src/gl-matrix/mat2"
+import * as vec2 from '../../src/gl-matrix/vec2'
 
 describe("mat2", function() {
     let out, matA, matB, identity, result;
@@ -274,24 +275,42 @@ describe("mat2", function() {
     });
 
     describe("fromOuterProduct", function() {
-        beforeEach(function() { result = mat2.fromOuterProduct(out,[1,2],[3,4]); });
-        it("should output the correct values", function() { expect(out).toBeEqualish([3, 6, 4, 8]); });
-        it("should return out", function() { expect(result).toBe(out); });
+      beforeEach(function() { result = mat2.fromOuterProduct(out,[1,2],[3,4]); });
+      it("should output the correct values", function() { expect(out).toBeEqualish([3, 6, 4, 8]); });
+      it("should return out", function() { expect(result).toBe(out); });
     });
 
     describe('decomposeQR', function() {
-        let outQ = mat2.create(), outR = mat2.create();
-        beforeEach(function() { result = mat2.decomposeQR(outQ, outR, [3,4,6,9]); });
-        it("should output the correct values", function() {
-          expect(outQ).toBeEqualish([3/5, 4/5, -4/5, 3/5]);
-          expect(outR).toBeEqualish([5, 0, 54/5, 3/5]);
-        });
-        it("should return outQ", function() { expect(result).toBe(outQ); });
-        it('should not create NaN given an all zero matrix', function() {
-          mat2.decomposeQR(outQ, outR, [0,0,0,0]);
-          expect(outQ).toBeEqualish([0,0,0,0]);
-          expect(outR).toBeEqualish([1,0,0,1]);
-        });
+      let outQ = mat2.create(), outR = mat2.create();
+      beforeEach(function() { result = mat2.decomposeQR(outQ, outR, [3,4,6,9]); });
+      it("should output the correct values", function() {
+        expect(outQ).toBeEqualish([3/5, 4/5, -4/5, 3/5]);
+        expect(outR).toBeEqualish([5, 0, 54/5, 3/5]);
+      });
+      it("should return outQ", function() { expect(result).toBe(outQ); });
+      it('should not create NaN given an all zero matrix', function() {
+        mat2.decomposeQR(outQ, outR, [0,0,0,0]);
+        expect(outQ).toBeEqualish([0,0,0,0]);
+        expect(outR).toBeEqualish([1,0,0,1]);
+      });
+    });
+
+    describe('rotationTo', function() {
+      it('basic case', function() {
+        let a = [0,1], b = [-1,0];
+        let m = mat2.rotationTo([], a, b);
+        expect(vec2.transformMat2([], a, m)).toBeEqualish(b);
+      });
+      it('negative rotation', function() {
+        let a = [1,0], b = [0,-1];
+        let m = mat2.rotationTo([], a, b);
+        expect(vec2.transformMat2([], a, m)).toBeEqualish(b);
+      });
+      it('exact opposite', function() {
+        let a = [1,0], b = [-1,0];
+        let m = mat2.rotationTo([], a, b);
+        expect(vec2.transformMat2([], a, m)).toBeEqualish(b);
+      });
     });
 
     describe("set", function() {
