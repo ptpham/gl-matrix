@@ -2944,6 +2944,7 @@ exports.multiply = multiply;
 exports.rotate = rotate;
 exports.scale = scale;
 exports.fromRotation = fromRotation;
+exports.rotationTo = rotationTo;
 exports.fromScaling = fromScaling;
 exports.fromOuterProduct = fromOuterProduct;
 exports.addScaledOuterProduct = addScaledOuterProduct;
@@ -3232,6 +3233,15 @@ function fromRotation(out, rad) {
   out[3] = c;
   return out;
 }
+
+/**
+ * Computes the rotation that rotates the first vec2 a to the second vec2 b.
+ */
+function rotationTo(result, a, b, defaultSign) {
+  var sign = Math.sign(a[0] * b[1] - a[1] * b[0]) || defaultSign || 1;
+  var dot = Math.min(Math.max(a[0] * b[0] + a[1] * b[1], -1), 1);
+  return fromRotation(result, sign * Math.acos(dot));
+};
 
 /**
  * Creates a matrix from a vector scaling
