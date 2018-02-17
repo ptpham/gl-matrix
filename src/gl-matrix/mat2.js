@@ -156,7 +156,7 @@ export function invert(out, a) {
   // Calculate the determinant
   let det = a0 * a3 - a2 * a1;
 
-  if (Math.abs(det) < 0.000001) {
+  if (Math.abs(det) < glMatrix.EPSILON) {
     return null;
   }
   det = 1.0 / det;
