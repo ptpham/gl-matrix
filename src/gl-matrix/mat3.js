@@ -546,8 +546,6 @@ export let decomposeQR = (() => {
           outR[3*i + j] = space[j];
         }
         outR[4*i] = l;
-      } else {
-        outR[4*i] = 1;
       }
     }
 

@@ -291,7 +291,7 @@ describe("mat2", function() {
       it('should not create NaN given an all zero matrix', function() {
         mat2.decomposeQR(outQ, outR, [0,0,0,0]);
         expect(outQ).toBeEqualish([0,0,0,0]);
-        expect(outR).toBeEqualish([1,0,0,1]);
+        expect(outR).toBeEqualish([0,0,0,0]);
       });
     });
 

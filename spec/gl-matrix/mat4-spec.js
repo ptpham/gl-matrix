@@ -613,10 +613,9 @@ function buildMat4Tests() {
             it("should return outQ", function() { expect(result).toBe(outQ); });
             it('should not create NaN given an all zero matrix', function() {
               let zeroes = mat4.create().fill(0);
-              let identity = mat4.create();
               mat4.decomposeQR(outQ, outR, zeroes);
               expect(outQ).toBeEqualish(zeroes);
-              expect(outR).toBeEqualish(identity);
+              expect(outR).toBeEqualish(zeroes);
             });
         });
 

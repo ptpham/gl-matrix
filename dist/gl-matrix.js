@@ -821,8 +821,6 @@ var decomposeQR = exports.decomposeQR = function () {
           outR[3 * i + _j2] = space[_j2];
         }
         outR[4 * i] = l;
-      } else {
-        outR[4 * i] = 1;
       }
     }
 
@@ -3289,7 +3287,7 @@ function addScaledOuterProduct(out, v0, v1) {
 
 function decomposeQR(outQ, outR, A) {
   outQ.fill(0);
-  identity(outR);
+  outR.fill(0);
 
   var _A = _slicedToArray(A, 4),
       a0 = _A[0],
@@ -5207,8 +5205,6 @@ var decomposeQR = exports.decomposeQR = function () {
           outR[4 * i + _j2] = space[_j2];
         }
         outR[5 * i] = l;
-      } else {
-        outR[5 * i] = 1;
       }
     }
 

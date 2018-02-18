@@ -326,7 +326,7 @@ export function addScaledOuterProduct(out, v0, v1, w = 1) {
 
 export function decomposeQR(outQ, outR, A) {
   outQ.fill(0);
-  identity(outR);
+  outR.fill(0);
 
   let [a0, a1, a2, a3] = A;
   let l0 = Math.sqrt(a0*a0 + a1*a1);
