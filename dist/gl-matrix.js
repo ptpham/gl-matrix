@@ -3853,7 +3853,7 @@ var setAxes = exports.setAxes = function () {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.forEach = exports.sqrLen = exports.len = exports.sqrDist = exports.dist = exports.div = exports.mul = exports.sub = undefined;
+exports.forEach = exports.sqrLen = exports.len = exports.sqrDist = exports.dist = exports.div = exports.mul = exports.sub = exports.orientedAngle = undefined;
 exports.create = create;
 exports.clone = clone;
 exports.length = length;
@@ -4662,6 +4662,16 @@ function angle(a, b) {
     return Math.acos(cosine);
   }
 }
+
+var orientedAngle = exports.orientedAngle = function () {
+  var _v3_0 = vec3.create();
+  return function orientedAngle(a, b, n) {
+    var theta = angle(a, b);
+    var sign = vec3.dot(vec3.cross(_v3_0, a, b), n);
+    if (sign >= 0) return theta;
+    return 2 * Math.PI - theta;
+  };
+}();
 
 /**
  * Returns a string representation of a vector

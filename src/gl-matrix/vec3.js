@@ -691,6 +691,16 @@ export function angle(a, b) {
   }
 }
 
+export let orientedAngle = (() => {
+  let _v3_0 = create();
+  return function orientedAngle(a, b, n) {
+    let theta = angle(a, b);
+    let sign = dot(cross(_v3_0, a, b), n);
+    if (sign >= 0) return theta;
+    return 2*Math.PI - theta;
+  };
+})();
+
 /**
  * Returns a string representation of a vector
  *

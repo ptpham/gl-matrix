@@ -728,6 +728,17 @@ describe("vec3", function() {
         it("should not modify vecB", function() { expect(vecB).toBeEqualish([4, 5, 6]); });
     });
 
+    describe("orientedAngle", function() {
+        it("should correct angle less than PI", function() {
+          let result = vec3.orientedAngle([1,0,0], [0,1,0], [0,0,1]);
+          expect(result).toBeEqualish(Math.PI/2);
+        });
+        it("should correct angle greater than PI", function() {
+          let result = vec3.orientedAngle([1,0,0], [0,-1,0], [0,0,1]);
+          expect(result).toBeEqualish(3*Math.PI/2);
+        });
+    });
+
     describe("str", function() {
         beforeEach(function() { result = vec3.str(vecA); });
 
