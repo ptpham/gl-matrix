@@ -4664,10 +4664,10 @@ function angle(a, b) {
 }
 
 var orientedAngle = exports.orientedAngle = function () {
-  var _v3_0 = vec3.create();
+  var _v3_0 = create();
   return function orientedAngle(a, b, n) {
     var theta = angle(a, b);
-    var sign = vec3.dot(vec3.cross(_v3_0, a, b), n);
+    var sign = dot(cross(_v3_0, a, b), n);
     if (sign >= 0) return theta;
     return 2 * Math.PI - theta;
   };
