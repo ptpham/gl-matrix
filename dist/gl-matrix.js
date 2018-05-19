@@ -3882,6 +3882,7 @@ exports.cross = cross;
 exports.average = average;
 exports.center = center;
 exports.lerp = lerp;
+exports.slerp = slerp;
 exports.hermite = hermite;
 exports.bezier = bezier;
 exports.random = random;
@@ -4395,6 +4396,19 @@ function lerp(out, a, b, t) {
   out[0] = ax + t * (b[0] - ax);
   out[1] = ay + t * (b[1] - ay);
   out[2] = az + t * (b[2] - az);
+  return out;
+}
+
+function slerp(out, a, b, t) {
+  var angle = Math.acos(Math.min(Math.max(dot(a, b), -1), 1));
+  var sinTotal = Math.sin(angle);
+
+  var ratioA = Math.sin((1 - t) * angle) / sinTotal;
+  var ratioB = Math.sin(t * angle) / sinTotal;
+  out[0] = ratioA * a[0] + ratioB * b[0];
+  out[1] = ratioA * a[1] + ratioB * b[1];
+  out[2] = ratioA * a[2] + ratioB * b[2];
+
   return out;
 }
 
