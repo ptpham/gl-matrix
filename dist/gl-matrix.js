@@ -3277,7 +3277,7 @@ function setAxisAngle(out, axis, rad) {
  * @return {Number}     Angle, in radians, of the rotation
  */
 function getAxisAngle(out_axis, q) {
-  var rad = Math.acos(q[3]) * 2.0;
+  var rad = Math.acos(Math.max(Math.min(q[3], 1), -1)) * 2.0;
   var s = Math.sin(rad / 2.0);
   if (s != 0.0) {
     out_axis[0] = q[0] / s;
