@@ -3451,7 +3451,7 @@ function slerp(out, a, b, t) {
     bw = -bw;
   }
   // calculate coefficients
-  if (1.0 - cosom > glMatrix.EPSILON) {
+  if (1.0 - cosom > 0.0000001) {
     // standard case (slerp)
     omega = Math.acos(cosom);
     sinom = Math.sin(omega);
