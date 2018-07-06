@@ -450,6 +450,14 @@ export const mul = multiply;
  */
 export const scale = vec4.scale;
 
+export const scaleAngle = (() => {
+  let axis = vec3.create();
+  return function scaleAngle(result, q, scale) {
+    let angle = getAxisAngle(axis, q); 
+    return setAxisAngle(result, axis, angle*scale);
+  };  
+})();
+
 /**
  * Calculates the dot product of two quat's
  *

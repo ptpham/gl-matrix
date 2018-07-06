@@ -491,6 +491,17 @@ describe("quat", function() {
         });
     });
 
+    describe("scaleAngle", function() {
+        describe("with a separate output quaternion", function() {
+            it("should have the right result", function() {
+              let q = quat.setAxisAngle([], [1,0,0], 0.5);
+              quat.scaleAngle(q, q, 0.5);
+              let expected = quat.setAxisAngle([], [1,0,0], 0.25);
+              expect(q).toBeEqualish(expected);
+            });
+        });
+    });
+
     describe("length", function() {
         it("should have an alias called 'len'", function() { expect(quat.len).toEqual(quat.length); });
 

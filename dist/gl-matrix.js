@@ -813,7 +813,7 @@ var decomposeQR = exports.decomposeQR = function () {
       }
 
       var l = Math.sqrt(a0 * a0 + a1 * a1 + a2 * a2);
-      if (l > glMatrix.EPSILON) {
+      if (l > 0.000000001) {
         outQ[3 * i] = a0 / l;
         outQ[3 * i + 1] = a1 / l;
         outQ[3 * i + 2] = a2 / l;
@@ -3156,7 +3156,7 @@ var sub = exports.sub = subtract;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setAxes = exports.sqlerp = exports.rotationTo = exports.equals = exports.exactEquals = exports.normalize = exports.sqrLen = exports.squaredLength = exports.len = exports.length = exports.lerp = exports.dot = exports.scale = exports.mul = exports.add = exports.set = exports.copy = exports.fromValues = exports.clone = undefined;
+exports.setAxes = exports.sqlerp = exports.rotationTo = exports.equals = exports.exactEquals = exports.normalize = exports.sqrLen = exports.squaredLength = exports.len = exports.length = exports.lerp = exports.dot = exports.scaleAngle = exports.scale = exports.mul = exports.add = exports.set = exports.copy = exports.fromValues = exports.clone = undefined;
 exports.create = create;
 exports.identity = identity;
 exports.setAxisAngle = setAxisAngle;
@@ -3668,6 +3668,14 @@ var mul = exports.mul = multiply;
  * @function
  */
 var scale = exports.scale = vec4.scale;
+
+var scaleAngle = exports.scaleAngle = function () {
+  var axis = vec3.create();
+  return function scaleAngle(result, q, scale) {
+    var angle = getAxisAngle(axis, q);
+    return setAxisAngle(result, axis, angle * scale);
+  };
+}();
 
 /**
  * Calculates the dot product of two quat's
