@@ -4266,12 +4266,16 @@ function normalize(out, a) {
   var y = a[1];
   var z = a[2];
   var len = x * x + y * y + z * z;
-  if (len > 0) {
+  if (len > 1e-6) {
     //TODO: evaluate use of glm_invsqrt here?
     len = 1 / Math.sqrt(len);
     out[0] = a[0] * len;
     out[1] = a[1] * len;
     out[2] = a[2] * len;
+  } else {
+    out[0] = 0;
+    out[1] = 0;
+    out[2] = 0;
   }
   return out;
 }
