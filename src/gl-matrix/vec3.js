@@ -445,6 +445,11 @@ export function slerp(out, a, b, t) {
   let angle = Math.acos(Math.min(Math.max(dot(a, b), -1), 1));
   let sinTotal = Math.sin(angle);
 
+  if (Math.abs(sinTotal) < 1e-6) {
+    lerp(out, a, b, t);
+    return normalize(out, out);
+  }
+
   let ratioA = Math.sin((1-t)*angle) / sinTotal;
   let ratioB = Math.sin(t*angle) / sinTotal;
   out[0] = ratioA*a[0] + ratioB*b[0];
