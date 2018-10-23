@@ -717,7 +717,9 @@ export let orientedAngle = (() => {
   let _v3_0 = create();
   return function orientedAngle(a, b, n) {
     let theta = angle(a, b);
-    let sign = dot(cross(_v3_0, a, b), n);
+    cross(_v3_0, a, b);
+    if (length(_v3_0) < 1e-6) return 0;
+    let sign = dot(_v3_0, n);
     if (sign >= 0) return theta;
     return 2*Math.PI - theta;
   };
