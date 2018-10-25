@@ -4699,7 +4699,7 @@ var orientedAngle = exports.orientedAngle = function () {
   return function orientedAngle(a, b, n) {
     var theta = angle(a, b);
     cross(_v3_0, a, b);
-    if (length(_v3_0) < 1e-6) return 0;
+    if (length(_v3_0) < 1e-6) return dot(a, b) < 0 ? Math.PI : 0;
     var sign = dot(_v3_0, n);
     if (sign >= 0) return theta;
     return 2 * Math.PI - theta;
