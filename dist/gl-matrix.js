@@ -3901,6 +3901,11 @@ exports.rotateX = rotateX;
 exports.rotateY = rotateY;
 exports.rotateZ = rotateZ;
 exports.angle = angle;
+exports.direction = direction;
+exports.flip = flip;
+exports.bisector = bisector;
+exports.isEmpty = isEmpty;
+exports.normalizedAngle = normalizedAngle;
 exports.str = str;
 exports.exactEquals = exactEquals;
 exports.equals = equals;
@@ -4705,6 +4710,28 @@ var orientedAngle = exports.orientedAngle = function () {
     return 2 * Math.PI - theta;
   };
 }();
+
+function direction(result, dst, src) {
+  sub(result, dst, src);
+  return normalize(result, result);
+};
+
+function flip(result, v) {
+  return scale(result, v, -1);
+};
+
+function bisector(result, a, b) {
+  add(result, a, b);
+  return normalize(result, result);
+};
+
+function isEmpty(a) {
+  return a[0] == 0 && a[1] == 0 && a[2] == 0;
+}
+
+function normalizedAngle(a, b) {
+  return Math.acos(Math.min(Math.max(dot(a, b), -1), 1));
+}
 
 /**
  * Returns a string representation of a vector

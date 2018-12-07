@@ -725,6 +725,28 @@ export let orientedAngle = (() => {
   };
 })();
 
+export function direction(result, dst, src) {
+  sub(result, dst, src);
+  return normalize(result, result);
+};
+
+export function flip(result, v) {
+  return scale(result, v, -1);
+};
+
+export function bisector(result, a, b) {
+  add(result, a, b);
+  return normalize(result, result);
+};
+
+export function isEmpty(a) {
+  return a[0] == 0 && a[1] == 0 && a[2] == 0;
+}
+
+export function normalizedAngle(a, b) {
+  return Math.acos(Math.min(Math.max(dot(a, b), -1), 1));
+}
+
 /**
  * Returns a string representation of a vector
  *
