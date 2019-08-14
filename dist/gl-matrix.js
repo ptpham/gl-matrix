@@ -4331,6 +4331,7 @@ function average(out) {
     points[_key - 1] = arguments[_key];
   }
 
+  if (points.length == 0) return out;
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;
@@ -5320,6 +5321,7 @@ function average(out) {
     points[_key - 1] = arguments[_key];
   }
 
+  if (points.length == 0) return out;
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;
@@ -8138,6 +8140,7 @@ function average(out) {
     points[_key - 1] = arguments[_key];
   }
 
+  if (points.length == 0) return out;
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;

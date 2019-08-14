@@ -409,6 +409,7 @@ export function dot(a, b) {
  */
 export function average(out, ...points) {
   set(out, 0, 0, 0, 0);
+  if (points.length == 0) return out;
   for (let point of points) add(out, out, point);
   return scale(out, out, 1/points.length);
 }
